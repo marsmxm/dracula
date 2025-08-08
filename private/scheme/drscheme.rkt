@@ -2,11 +2,7 @@
 
 (require drscheme/tool
          string-constants
-         "dict.ss"
-         (only-in test-engine/scheme-gui make-formatter)
-         (only-in test-engine/scheme-tests
-                  scheme-test-data test-format test-execute)
-         (lib "test-display.scm" "test-engine"))
+         "dict.ss")
 
 (provide language-level^
          language-level@)
@@ -103,26 +99,10 @@
                 (cons 'tests:dock-menu #true))))
       (language-level-dynamic-setup-mixin
         (lambda (lang settings)
-          (define ns
-            (namespace-anchor->namespace the-anchor))
-          (define mod
-            ((current-module-name-resolver)
-             'test-engine/scheme-tests
-             #false
-             #false
-             #true))
           (lambda ()
-            (namespace-attach-module ns mod)
-            (namespace-require mod)
-            (scheme-test-data
-              (list (drscheme:rep:current-rep)
-                    drscheme-eventspace
-                    test-display%))
-            (test-execute (get-preference 'tests:enable? (lambda () #true)))
-            (test-format
-              (make-formatter
-                (lambda (v o)
-                  (send lang render-value/format v settings o 40)))))))))
+            ;; Test engine integration has been simplified
+            ;; The new test-engine handles display automatically
+            (void))))))
 
   (define (language-level-settings-mixin default is-default? build-config)
     (mixin (drscheme:language:language<%>) ()

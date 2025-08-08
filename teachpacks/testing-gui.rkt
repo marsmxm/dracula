@@ -1,6 +1,6 @@
 #lang racket
 
-(require test-engine/racket-gui)
+(require htdp/testing)
 
 (provide generate-gui-report!)
 
